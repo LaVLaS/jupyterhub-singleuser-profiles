@@ -285,12 +285,16 @@ class SingleuserProfiles(object):
     node_affinity = {}
     notebook_container = [container for container in pod.spec.containers if container.name == 'notebook'][0]
 
+
+    _LOGGER.info(f"######## cpu_types is {cpu_types}")
     # If there are no GPUs in the cluster, or the user isn't requesting one, apply the cpu_type soft affinity
     if (int(gpu_count) == 0) or (_GPU_KEY not in notebook_container.resources.requests):
         # There may be multiple cpu_type options, apply them all the same way it's done for gpu_types
         for cpu_type in cpu_types:
             node_affinity = {**cpu_type.get('node_affinity', {}), **node_affinity}
 
+
+    _LOGGER.info(f"######## node_affinity is {node_affinity}")
     self.apply_pod_schedulers(node_tolerations, node_affinity, pod)
 
     return None
