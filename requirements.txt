@@ -8,5 +8,5 @@ pydantic
 jinja2
 escapism
 tornado
-jupyterhub
+jupyterhub < 2.0.0
 prometheus-api-client
